@@ -9,8 +9,6 @@
 /home/piffy/CLionProjects/Advent/main.cpp
 iostream
 -
-cstdio
--
 fstream
 -
 algorithm
