@@ -1,45 +1,33 @@
 #include <iostream>
+#include <cstdio>
 #include <fstream>
-#include <vector>
+#include <algorithm>
+
+bool check(int lower, int upper, char ch, std::string basicString);
+
 using namespace std;
 
-int parte1(const std::vector<std::uintmax_t>& numeri )
-{
-    for(auto i = 0; i < numeri.size(); ++i )
-    {
-        for(auto j = 0; j < numeri.size(); ++j )
-        {
-            if(numeri[i] + numeri[j] == 2020 )
-                return numeri[i] * numeri[j];
-        }
-    }
-    return {};
-}
-long long int parte2(const std::vector<std::uintmax_t>& numeri )
-{
-    for(auto i = 0; i < numeri.size(); ++i )
-    {
-        for(auto j = 0; j < numeri.size(); ++j )
-        {
-            if(numeri[i] + numeri[j] >= 2020)
-                continue;
-            for (auto k = 0; k < numeri.size(); ++k)
-            if(numeri[i] + numeri[j] + numeri[k]== 2020 )
-                return numeri[i] * numeri[j] * numeri[k];
-        }
-    }
-    return {};
-}
 
 int main() {
-
-    std::vector<std::uintmax_t> numeri;
-    std::ifstream Input("data.txt");
+    std::ifstream input("data.txt");
     std::uintmax_t x;
-    while( Input >> x ) numeri.push_back(x);
+    int minrep, maxrep, count = 0;
+    char target, trash;
+    std::string password;
+    // La lettura è eticamente orribile. fscanf:fstream 1-0
+    while (input >> minrep >> trash >> maxrep >> target >> trash >> password) {
+        count= check(minrep, maxrep, target, password) ? count + 1 : count;
+        //cout<<minrep<<"-"<<maxrep<<" "<<target<<": "<<password<<endl
+    }
+    cout<<count<<endl;
 
-    cout << parte1(numeri) << endl;
-    cout << parte2(numeri) << endl;
     return EXIT_SUCCESS;
 
+}
+
+bool check(int lower, int upper, char ch, string basicString) {
+    int count= std::count(basicString.begin(), basicString.end(), ch);
+    if (count<lower || count>upper)
+        return false;
+    return true;
 }
